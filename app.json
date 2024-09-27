@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "todo-app",
-    "slug": "todo-app",
+    "name": "discipline-app",
+    "slug": "discipline-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -13,6 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "bundleIdentifier": "com.discipline.app",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
@@ -31,6 +33,12 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a3a11fc3-02d3-4e51-9f48-f79acb61444b"
+      }
+    },
+    "owner": "nono3312"
   }
 }
