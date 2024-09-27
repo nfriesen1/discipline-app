@@ -5,7 +5,7 @@ import { Text, View } from "@/components/Themed";
 export default function Home() {
   return (
     <View style={tabStyles.container}>
-      <Text> Home </Text>
+      <Text style={tabStyles.title}>Home</Text>
       <CardComponent title="Daily Goals" content="Hi"/>
     </View>
   );
