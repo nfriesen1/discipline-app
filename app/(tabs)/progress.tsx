@@ -1,8 +1,5 @@
-import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
-import tabStyles from '../styles/styles';
+import { tabStyles } from '../styles/styles';
 
 export default function Progress() {
   return (

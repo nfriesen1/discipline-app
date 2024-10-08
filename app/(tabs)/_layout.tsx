@@ -56,6 +56,20 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="barbell" color={color} />
           ),
+          headerRight: () => (
+            <Link href="/Profile" asChild>
+              <Pressable>
+                {({ pressed }) => (
+                  <FontAwesome
+                    name="user"
+                    size={25}
+                    color={Colors[colorScheme ?? "light"].text}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            </Link>
+          ),
         }}
       />
       <Tabs.Screen
@@ -65,6 +79,20 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="nutrition" color={color} />
           ),
+          headerRight: () => (
+            <Link href="/Profile" asChild>
+              <Pressable>
+                {({ pressed }) => (
+                  <FontAwesome
+                    name="user"
+                    size={25}
+                    color={Colors[colorScheme ?? "light"].text}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            </Link>
+          ),
         }}
       />
       <Tabs.Screen
@@ -73,6 +101,20 @@ export default function TabLayout() {
           title: "Progress",
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="bar-chart" color={color} />
+          ),
+          headerRight: () => (
+            <Link href="/Profile" asChild>
+              <Pressable>
+                {({ pressed }) => (
+                  <FontAwesome
+                    name="user"
+                    size={25}
+                    color={Colors[colorScheme ?? "light"].text}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            </Link>
           ),
         }}
       />

@@ -1,5 +1,5 @@
 import CardComponent from "@/components/CardComponent";
-import tabStyles from "../styles/styles";
+import { tabStyles } from "../styles/styles";
 import { Text, View } from "@/components/Themed";
 
 export default function Home() {

@@ -1,5 +1,5 @@
 import { Text, View } from '@/components/Themed';
-import tabStyles from '../styles/styles';
+import { tabStyles } from '../styles/styles';
 
 export default function Workouts() {
   return (

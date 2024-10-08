@@ -1,5 +1,4 @@
-import { StyleSheet } from 'react-native';
-import tabStyles from '../styles/styles';
+import { tabStyles } from '../styles/styles';
 import { Text, View } from '@/components/Themed';
 
 export default function Nutrition() {
