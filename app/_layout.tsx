@@ -1,25 +1,19 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DarkTheme, DefaultTheme, ThemeProvider, NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/components/useColorScheme';
+import Login from './screens/Login';
+import Signup from './screens/Signup';
+import { Colors } from './styles/styles';
+import TabsNavigator from './TabsNavigator';
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from 'expo-router';
-
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: 'login',
-};
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+const Stack = createStackNavigator();
+const {tertiary} = Colors;
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
@@ -46,15 +40,22 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name='screens/Login' options={{headerShown: false, presentation: 'modal'}} ></Stack.Screen>
-        {/* <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="Profile" options={{ presentation: 'modal' }} /> */}
-      </Stack>
-    </ThemeProvider>
+      <Stack.Navigator
+        screenOptions={{
+          headerTransparent: true,
+          headerTintColor: tertiary,
+          headerTitle: "",
+          headerLeftContainerStyle: {
+            paddingLeft: 20
+          }
+        }}
+        initialRouteName='screens/Login'
+      >
+        <Stack.Screen name='screens/Login' component={Login}/>
+        <Stack.Screen name='screens/Signup' component={Signup}/>
+        <Stack.Screen name='TabsNavigator' component={TabsNavigator}/>
+      </Stack.Navigator>
   );
 }

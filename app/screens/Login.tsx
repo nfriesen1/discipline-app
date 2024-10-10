@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Fontisto } from "@expo/vector-icons";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 // formik
 import { Formik } from "formik";
@@ -26,10 +27,23 @@ import {
 import MyTextInput from "@/components/MyTextInput";
 import MyPasswordInput from "@/components/MyPasswordInput";
 
+type RootStackParamList = {
+  'screens/Login': undefined;
+  'screens/Signup': undefined;
+  'TabsNavigator': undefined;
+};
+
+// Define the type for the navigation prop in the Login component
+type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'screens/Login'>;
+
+interface Props {
+  navigation: LoginScreenNavigationProp;
+}
+
 //Colors
 const { darkLight, primary } = Colors
 
-const Login = () => {
+const Login: React.FC<Props> = ({ navigation }) => {
   const [hidePassword, setHidePassword] = useState(true)
   return (
     <StyledContainer>
@@ -45,6 +59,7 @@ const Login = () => {
           initialValues={{ email: "", password: "" }}
           onSubmit={(values) => {
             console.log(values);
+            navigation.navigate("TabsNavigator")
           }}
         >{({handleChange, handleBlur, handleSubmit, values}) => (
           <StyledFormArea>
@@ -67,18 +82,17 @@ const Login = () => {
               onBlur={handleBlur('password')}
               value={values.password}
               secureTextEntry={hidePassword}
-              isPassword={true}
               hidePassword = {hidePassword}
               setHidePassword={setHidePassword}
             />
             <MessageBox>...</MessageBox>
-            <StyledButton onPress={() => handleSubmit}>
+            <StyledButton onPress={handleSubmit as any}>
               <ButtonText>
                 Login
               </ButtonText>
             </StyledButton>
             <Line/>
-            <StyledButton google={true} onPress={() => handleSubmit}>
+            <StyledButton google={true} onPress={handleSubmit as any}>
               <Fontisto name="google" color={primary} size={25} />
               <ButtonText google={true}>
                 Sign in with Google
@@ -88,7 +102,7 @@ const Login = () => {
               <ExtraText>
                 Don't have an account already?
               </ExtraText>
-              <TextLink>
+              <TextLink onPress={() => navigation.navigate("screens/Signup")}>
                   <TextLinkContent>Signup</TextLinkContent>
               </TextLink>
             </ExtraView>
