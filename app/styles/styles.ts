@@ -1,7 +1,8 @@
-import { StyleSheet, View, Image, Text, TouchableOpacity, TextInput } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity, TextInput, } from "react-native";
 import styled from "styled-components";
 import Constants from "expo-constants";
 import { Link } from "expo-router";
+import { Card } from "react-native-paper";
 
 interface GoogleIconProps {
   google?: boolean;  // Optional boolean prop
@@ -138,7 +139,7 @@ export const ButtonText = styled(Text)<GoogleIconProps>`
 `;
 
 export const MessageBox = styled(Text)`
-  color: ${green};
+  color: ${red};
   font-size: 13px;
 `;
 
@@ -172,6 +173,17 @@ export const TextLinkContent = styled(Text)`
   color: ${link};
   font-size: 15px;
   margin-left: 5px;
+`;
+
+export const StyledCard = styled(Card)`
+  border-radius: 15px;
+  background-color: ${brand};
+  margin-vertical: 3px;
+`;
+
+export const CardText = styled(Text)`
+  font-size: 14px;
+  color: ${primary};
 `;
 
 export const tabStyles = StyleSheet.create({

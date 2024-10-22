@@ -1,21 +1,21 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import Home from './screens/Home';
-import Nutrition from './screens/Nutrition';
-import Progress from './screens/Progress';
-import Workouts from './screens/Workouts';
-import { Colors } from './styles/styles';  // Adjust according to your project structure
+import Home from './Home/Home';
+import Nutrition from './Nutrition/Nutrition';
+import Progress from './Progress/Progress';
+import Workouts from './Workouts/Workouts';
+import { Colors } from '../../styles/styles';  // Adjust according to your project structure
 import { useColorScheme } from '@/components/useColorScheme';
-
 // Create the Tab Navigator instance
+
 const Tab = createBottomTabNavigator();
 
 const { brand, darkLight } = Colors;
 
-function TabsNavigator() {
+const TabsNavigator = () => {
   const colorScheme = useColorScheme();  // Optional: Handle light/dark mode
-
+  
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -49,11 +49,12 @@ function TabsNavigator() {
     >
       <Tab.Screen
         name="Home"
-        component={Home}
         options={{
           title: 'Home',
         }}
-      />
+        children={() => <Home/>}
+        />
+
       <Tab.Screen
         name="Nutrition"
         component={Nutrition}

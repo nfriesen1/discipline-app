@@ -46,3 +46,6 @@ expo-env.d.ts
 .idea/vcs.xml
 .idea/caches/deviceStreaming.xml
 .idea/.gitignore
+appConfig.ts
+firebaseConfig.ts
+.env

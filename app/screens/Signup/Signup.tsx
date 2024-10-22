@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { Fontisto } from "@expo/vector-icons";
 
 // formik
 import { Formik } from "formik";
@@ -20,10 +19,11 @@ import {
   ExtraText,
   TextLink,
   TextLinkContent,
-} from "../styles/styles";
+} from "../../styles/styles";
 
 import MyTextInput from "@/components/MyTextInput";
 import MyPasswordInput from "@/components/MyPasswordInput";
+import { SignupScreenNavigationProp } from "../../types";
 
 //Colors
 const { darkLight, brand } = Colors;
@@ -34,25 +34,27 @@ import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 import MyDateInput from "@/components/MyDateInput";
-import { StackNavigationProp } from "@react-navigation/stack";
 
-type RootStackParamList = {
-  'screens/Login': undefined;
-  'screens/Signup': undefined;
-  'TabsNavigator': undefined;
-};
+// firebase
+import { auth, db } from "@/firebaseConfig";
+import "firebase/auth";
+import {
+  AuthErrorCodes,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { FirebaseError } from "firebase/app";
 
 // Define the type for the navigation prop in the Login component
-type SignupScreenNavigationProp = StackNavigationProp<RootStackParamList, 'screens/Signup'>;
-
 interface Props {
   navigation: SignupScreenNavigationProp;
 }
 
-
 const Signup: React.FC<Props> = ({ navigation }) => {
   const [hidePassword, setHidePassword] = useState(true);
   const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date(2000, 0, 1));
 
@@ -67,6 +69,64 @@ const Signup: React.FC<Props> = ({ navigation }) => {
     setDob(currentDate);
   };
 
+  const handleSignup = async (
+    name: string,
+    dob: Date | undefined,
+    email: string,
+    password: string,
+    confirmPassword: string
+  ) => {
+    if(password !== confirmPassword) {
+      setErrorMessage("Passwords do not match");
+      return;
+    }
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      await setDoc(doc(db, "users", user.uid), {
+        name: name,
+        dateOfBirth: dob,
+        email: email,
+      });
+      
+      if(auth.currentUser != null) {
+        await updateProfile(auth.currentUser, {
+          displayName: name
+        })
+      }
+    } catch (err) {
+      const errorCode = (err as FirebaseError).code;
+      console.log(errorCode);
+      // Handle Firebase auth errors
+      switch (errorCode) {
+        case AuthErrorCodes.EMAIL_EXISTS:
+          setErrorMessage(
+            "The email address is already in use by another account."
+          );
+          break;
+        case AuthErrorCodes.INVALID_EMAIL:
+          setErrorMessage("The email address is badly formatted.");
+          break;
+        case AuthErrorCodes.WEAK_PASSWORD:
+          setErrorMessage(
+            "The password is too weak. Please choose a stronger password."
+          );
+          break;
+        case AuthErrorCodes.OPERATION_NOT_ALLOWED:
+          setErrorMessage(
+            "Email/password accounts are not enabled. Contact support."
+          );
+          break;
+        default:
+          setErrorMessage("Sign up failed. Please try again.");
+          break;
+      }
+    }
+  };
   return (
     <StyledContainer>
       <StatusBar style="dark" />
@@ -83,7 +143,13 @@ const Signup: React.FC<Props> = ({ navigation }) => {
           }}
           onSubmit={(values) => {
             console.log(values);
-            navigation.navigate("TabsNavigator")
+            handleSignup(
+              values.fullName,
+              dob,
+              values.email,
+              values.password,
+              values.confirmPassword
+            );
           }}
         >
           {({ handleChange, handleBlur, handleSubmit, values }) => (
@@ -155,14 +221,14 @@ const Signup: React.FC<Props> = ({ navigation }) => {
                 hidePassword={hideConfirmPassword}
                 setHidePassword={setHideConfirmPassword}
               />
-              <MessageBox>...</MessageBox>
+              <MessageBox>{errorMessage}</MessageBox>
               <StyledButton onPress={handleSubmit as any}>
                 <ButtonText>Signup</ButtonText>
               </StyledButton>
               <Line />
               <ExtraView>
                 <ExtraText>Have an account already?</ExtraText>
-                <TextLink onPress={() => navigation.navigate("screens/Login")}>
+                <TextLink onPress={() => navigation.navigate("screens/Login/Login")}>
                   <TextLinkContent>Login</TextLinkContent>
                 </TextLink>
               </ExtraView>
