@@ -11,10 +11,13 @@ import TabsNavigator from "./screens/Tabs/TabsNavigator";
 import { auth } from "@/firebaseConfig";
 import { AuthStackParamList, RootStackParamList } from "./routes";
 import { onAuthStateChanged, User } from "firebase/auth";
+import { ActivityIndicator } from "react-native";
+import FoodInfo from "./screens/FoodInfo/FoodInfo";
+import ModalScreen from "./screens/Profile/Profile";
 
 const RootStack = createStackNavigator<RootStackParamList>();
 const AuthStack = createStackNavigator<AuthStackParamList>();
-const { tertiary } = Colors;
+const { tertiary, brand } = Colors;
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
@@ -42,13 +45,13 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const [loading, setLoading] = useState(true);  // To handle loading state
+  const [loading, setLoading] = useState(true); // To handle loading state
 
   useEffect(() => {
     // Firebase auth listener
     const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
-      setIsSignedIn(!!user);  // If user exists, isSignedIn will be true
-      setLoading(false);      // Stop loading once we know auth state
+      setIsSignedIn(!!user); // If user exists, isSignedIn will be true
+      setLoading(false); // Stop loading once we know auth state
     });
 
     // Cleanup subscription on unmount
@@ -57,7 +60,7 @@ function RootLayoutNav() {
 
   if (loading) {
     // Optionally, you can show a loading indicator while checking auth state
-    return null;  // Or a loading component
+    return <ActivityIndicator size="small" color={brand} />; // Or a loading component
   }
 
   console.log(isSignedIn);
@@ -72,27 +75,30 @@ function RootLayoutNav() {
         },
       }}
       initialRouteName="screens/Tabs/TabsNavigator"
-      > 
+    >
       <RootStack.Screen
         name="screens/Tabs/TabsNavigator"
         component={TabsNavigator}
       />
+      <RootStack.Screen name="screens/FoodInfo/FoodInfo" component={FoodInfo} />
+      <RootStack.Screen name="screens/Profile/Profile" component={ModalScreen} options={{ presentation: 'modal' }} />
     </RootStack.Navigator>
   ) : (
     <AuthStack.Navigator
-    screenOptions={{
-      headerTransparent: true,
-      headerTintColor: tertiary,
-      headerTitle: "",
-      headerLeftContainerStyle: {
-        paddingLeft: 20,
-      },
-    }}
-    initialRouteName="screens/Login/Login">
+      screenOptions={{
+        headerTransparent: true,
+        headerTintColor: tertiary,
+        headerTitle: "",
+        headerLeftContainerStyle: {
+          paddingLeft: 20,
+        },
+      }}
+      initialRouteName="screens/Login/Login"
+    >
       <>
-      <AuthStack.Screen name="screens/Login/Login" component={Login} />
-      <AuthStack.Screen name="screens/Signup/Signup" component={Signup} />
-    </>
+        <AuthStack.Screen name="screens/Login/Login" component={Login} />
+        <AuthStack.Screen name="screens/Signup/Signup" component={Signup} />
+      </>
     </AuthStack.Navigator>
   );
 }

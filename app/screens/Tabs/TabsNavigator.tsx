@@ -7,6 +7,7 @@ import Progress from './Progress/Progress';
 import Workouts from './Workouts/Workouts';
 import { Colors } from '../../styles/styles';  // Adjust according to your project structure
 import { useColorScheme } from '@/components/useColorScheme';
+import Profile from '../Profile/Profile';
 // Create the Tab Navigator instance
 
 const Tab = createBottomTabNavigator();
@@ -35,6 +36,9 @@ const TabsNavigator = () => {
             case 'Workouts':
               iconName = 'barbell';
               break;
+            case 'Profile':
+              iconName='person';
+              break;
             default:
               iconName = 'home';
               break;
@@ -49,10 +53,10 @@ const TabsNavigator = () => {
     >
       <Tab.Screen
         name="Home"
+        component={Home}
         options={{
           title: 'Home',
         }}
-        children={() => <Home/>}
         />
 
       <Tab.Screen
@@ -74,6 +78,13 @@ const TabsNavigator = () => {
         component={Workouts}
         options={{
           title: 'Workouts',
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          title: 'Profile',
         }}
       />
     </Tab.Navigator>

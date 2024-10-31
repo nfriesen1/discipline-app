@@ -1,8 +1,8 @@
 import { StyleSheet, View, Image, Text, TouchableOpacity, TextInput, } from "react-native";
 import styled from "styled-components";
 import Constants from "expo-constants";
-import { Link } from "expo-router";
 import { Card } from "react-native-paper";
+import SelectDropdown from "react-native-select-dropdown";
 
 interface GoogleIconProps {
   google?: boolean;  // Optional boolean prop
@@ -12,7 +12,7 @@ interface GoogleIconProps {
 const StatusBarHeight = Constants.statusBarHeight;
 
 export const Colors = {
-  primary: "#ffffff",
+  primary: "#ffffff", 
   secondary: "#E5E7EB",
   tertiary: "#1F2937",
   darkLight: "#9CA3AF",
@@ -90,7 +90,7 @@ export const StyledInputLabel = styled(Text)`
 
 export const LeftIcon = styled(View)`
   left: 15px;
-  top: 38px;
+  top: 34px;
   position: absolute;
   z-index: 1;
 `;
@@ -109,6 +109,26 @@ export const RightIcon = styled(TouchableOpacity)`
   z-index: 1;
 `;
 
+export const IconButton = styled(TouchableOpacity)`
+  top: 10px;
+  right: 15px;
+  border-radius: 25px;
+  background-color: ${brand};
+  position: absolute;
+  z-index: 1;
+`
+
+export const TopIcon = styled(View)`
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  z-index: 1;
+  border-radius: 25px;
+  width: 50px;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+`;
 export const StyledButton = styled(TouchableOpacity)<GoogleIconProps>`
   padding: 15px;
   background-color: ${brand};
@@ -186,6 +206,24 @@ export const CardText = styled(Text)`
   color: ${primary};
 `;
 
+export const NutrientGrid = styled(View)`
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 10px;
+  gap: 10px;
+`;
+
+export const DropDownButtonView = styled(View)`
+    width: 200,
+    height: 50,
+    backgroundColor: '#E9ECEF',
+    borderRadius: 12,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+`;
 export const tabStyles = StyleSheet.create({
   container: {
     flex: 1,
